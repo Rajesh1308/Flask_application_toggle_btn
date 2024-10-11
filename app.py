@@ -5,7 +5,7 @@ import paho.mqtt.client as paho
 from paho import mqtt
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app,async_mode='eventlet')
 
 # Variable to hold the state of the toggle button
 toggle_state = False
@@ -28,4 +28,4 @@ def handle_toggle(data):
     emit('update_toggle', {'state': toggle_state}, broadcast=True)  # Broadcast to all clients
 
 if __name__ == '__main__':
-    socketio.run(app, port=5000, debug=False)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=False, use_reloader=False)
